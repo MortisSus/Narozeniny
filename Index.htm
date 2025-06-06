@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <title>Narozeniny</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+
+  <div id="login">
+    <h2>Zadej heslo:</h2>
+    <input type="password" id="passwordInput" />
+    <br /><br />
+    <button onclick="checkPassword()">Potvrdit</button>
+  </div>
+
+  <div id="main" style="display: none;">
+    <p id="clickText">Klikni 3 Krát</p>
+    <button onclick="handleClick()">Klikni</button>
+  </div>
+
+  <div id="finalMessage" style="display: none;">
+    🎉 Všeho Nejlepšího k narozkám! 🎉
+  </div>
+
+  <script>
+    let clickCount = 0;
+
+    function checkPassword() {
+      const password = document.getElementById('passwordInput').value;
+      if (password === "09.07.") {
+        document.getElementById('login').style.display = "none";
+        document.getElementById('main').style.display = "block";
+      } else {
+        alert("Špatné heslo.");
+      }
+    }
+
+    function handleClick() {
+      clickCount++;
+      updateClickText();
+      launchConfetti();
+      if (clickCount >= 3) {
+        document.getElementById('main').style.display = "none";
+        document.getElementById('finalMessage').style.display = "block";
+        launchConfetti(true);
+        launchFireworks();
+      }
+    }
+
+    function updateClickText() {
+      const clickText = document.getElementById('clickText');
+      const clicksLeft = 3 - clickCount;
+      if (clicksLeft > 0) {
+        clickText.style.opacity = 0;
+        setTimeout(() => {
+          clickText.textContent = `Klikni ${clicksLeft} Krát`;
+          clickText.style.opacity = 1;
+        }, 300);
+      }
+    }
+
+    function launchConfetti(big = false) {
+      const count = big ? 300 : 100;
+      const defaults = { origin: { y: 0.7 } };
+
+      function fire(particleRatio, opts) {
+        confetti(
+          Object.assign({}, defaults, opts, {
+            particleCount: Math.floor(count * particleRatio),
+          })
+        );
+      }
+
+      fire(0.25, { spread: 26, startVelocity: 55 });
+      fire(0.2, { spread: 60 });
+      fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+      fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+      fire(0.1, { spread: 120, startVelocity: 45 });
+    }
+
+    function launchFireworks() {
+      const duration = 15 * 1000;
+      const animationEnd = Date.now() + duration;
+      const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+      function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+      }
+
+      const interval = setInterval(function () {
+        const timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+          clearInterval(interval);
+          return;
+        }
+
+        const particleCount = 50 * (timeLeft / duration);
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+        confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+      }, 250);
+    }
+  </script>
+</body>
+</html>

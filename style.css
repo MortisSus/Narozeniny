@@ -1,0 +1,45 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  color: white;
+  background-image: url('https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  text-shadow: 1px 1px 3px #000;
+  overflow: hidden;
+}
+
+#login, #main, #finalMessage {
+  position: relative;
+  top: 30%;
+}
+
+#clickText, #finalMessage {
+  font-size: 32px;
+  font-weight: bold;
+  margin-top: 30px;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 15px;
+  padding: 15px 30px;
+  display: inline-block;
+  transition: opacity 0.3s ease;
+}
+
+button {
+  padding: 15px 30px;
+  font-size: 20px;
+  border: none;
+  border-radius: 12px;
+  background-color: #ff4081;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: transform 0.2s;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
